@@ -109,7 +109,8 @@ Llegado a este punto cada vez que le den click al botón de `Agregar` se debe in
   ...
 
   function onSearch(ciudad) {
-    fetch(`http://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=${apiKey}&units=metric`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&units=metric&lang=es&appid=${apiKey}`)
+
       .then(r => r.json())
       .then((recurso) => {
         if(recurso.main !== undefined){
