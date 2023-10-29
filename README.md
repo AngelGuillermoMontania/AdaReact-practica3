@@ -14,63 +14,7 @@ No es necesario volver a correr el proyecto cada vez que se realice un cambio si
 
 ### Ejercitación
 
-1. Copiar los componentes creados en el ejercicio anterior dentro de la carpeta `components`.
-
-- Card.jsx
-- ContainCard.jsx
-- SearchBar.jsx
-
-2. Adicionalmente a los componentes que ya teníamos vamos a tener que crear otro denominado `Nav` que va a ser nuestra barra superior de navegación en la cual debemos incluir el componente `SearchBar`. Escribir el código correspondiente en `components/Nav.jsx`. El resultado debería ser similar a lo siguiente:
-
-<p align="center">
-  <img src="./img-screen/nav.png" alt="Gif" />
-</p>
-
-- **Recuadro rojo**: Nav
-- **Recuadro verde**: SearchBar
-
-Ahora que ya tenemos cada una de las partes de nuestra aplicación procedamos a unirlas. Para ello veamos una imagen del resultado final y pensemos la estrucutra general:
-
-<p align="center">
-  <img src="./img-screen/componentes.png" alt="Gif" />
-</p>
-
-- **Recuadro rojo**: Nav
-- **Recuadro amarillo**: SearchBar
-- **Recuadro verde**: ContainCard
-- **Recuadro azul**: Card
-
-3. Dentro del archivo `App.js` cambiar el contenido que se esta renderizando actualmente `<h1>Título</h1>` por los componentes que deberíamos mostrar. Recordar que cada una de las tarjetas del clima (`Card`) están incluidas dentro de un componente superior (`ContainCards`) y que el `SearchBar` se encuentra dentro del `Nav` por lo que solo deberíamos agregar acá los componentes `Nav` y `ContainCard`.
-
-- Importar los componentes que vamos a utilizar
-
-```js
-// App.js
-...
-
-//Importar
-import Nav from './components/Nav.jsx';
-import ContainCard from './components/ContainCard.jsx';
-
-...
-      //Renderizar componentes
-      <div className="App">
-        <Nav />
-        <ContainCard />
-      </div>
-...
-
-```
-
-Inicialmente si nuestro componente ContainCard no está recibiendo datos de ciudades la aplicación se vería de la siguiente forma:
-
-<p align="center">
-  <img src="./img-screen/barra-busqueda.png" alt="Gif" />
-</p>
-
-_Observen que dentro del componente ContainCard se está verificando si está recibiendo las cities como prop o no._
-
-4. Utilizar el archivo `App.js` para mantener actualizado el listado de ciudades a mostrar. Para ello debemos crearle un estado a este componente donde tengamos el array de ciudades:
+3. Utilizar el archivo `App.js` para mantener actualizado el listado de ciudades a mostrar. Para ello debemos crearle un estado a este componente donde tengamos el array de ciudades:
 
 ```js
 // App.js
@@ -91,7 +35,7 @@ function App() {
 export default App;
 ```
 
-5. Ahora debemos crear una función para agregar nuevas ciudades a nuestro estado `cities` y se la pasaremos al `SearchBar` mediante el `Nav`.
+4. Ahora debemos crear una función para agregar nuevas ciudades a nuestro estado `cities` y se la pasaremos al `SearchBar` mediante el `Nav`.
 
 ```js
 // App.js
@@ -127,27 +71,9 @@ function App() {
 export default App;
 ```
 
-6. Pasarle la función recién creada al `Nav`.
+5. En este punto ya la función debería ejecutarse ya que en ejercitaciones anteriores ya estabamos ejecutando esta funcion. Si no es asi, deberíamos modificar el componente `Nav` para que reciba la función `onSearch` como parámetro y se la pase al componente `SearchBar` para que cuando se haga click en el botón `Agregar` se ejecute la función `onSearch` con el nombre de la ciudad que en los puntos siguiente ingresara el usuario (Actualmente "Cairns").
 
-```js
-// App.js
-...
-        <Nav onSearch={onSearch}/>
-...
-
-```
-
-7. Quien finalmente debe ejecutar la función `onSearch` no es el `Nav` sino el `SearchBar` por lo que debemos hacerle llegar dicha función.
-
-```js
-// Nav.jsx
-...
-        <SearchBar onSearch={onSearch}/>
-...
-
-```
-
-8. En este punto ya la función debería ejecutarse ya que en el ejercicio anterior ya habíamos creado el componente `SearchBar` que recibía la función como parámetro y la ejecutaba cuando se hacía un `submit` del form o un click en el boton buscar.
+````js
 
 ```js
 //SearchBar.jsx
@@ -165,15 +91,15 @@ export default function SearchBar({ onSearch }) {
     </form>
   );
 }
-```
+````
 
 Si observamos el código anterior estamos llamando a la función `onSearch` con un parámetro ya fijo pero quisiéramos que ese parámetro dependa del input ingresado por el usuario.
 
-9. Modificar el componente `SearchBar` para que mantenga un estado interno del nombre de la ciudad (`city`) escrita por el usuario y que cuando haya un cambio en el input lo detecte mediante el listener `onChange` y actualice dicho estado. Adicionalmente cambiar el parámetro de la funcion `onSearch` para que utilice el estado `city` en vez del valor fijo que tenía hasta ahora
+6. Modificar el componente `SearchBar` para que mantenga un estado interno del nombre de la ciudad (`city`) escrita por el usuario y que cuando haya un cambio en el input lo detecte mediante el listener `onChange` y actualice dicho estado. Adicionalmente cambiar el parámetro de la funcion `onSearch` para que utilice el estado `city` en vez del valor fijo que tenía hasta ahora
 
-Llegado a este punto cada vez que le den click al botón de `Agregar` se debe incluir una nueva tarjeta con los datos que seteamos para la ciudad de ejemplo `Cairns` o la buscada en el input
+Llegado a este punto cada vez que le den click al botón de `Agregar` se debe incluir una nueva tarjeta con los datos que escribimos en el input
 
-10. Modificar la función `onSearch` para que obtenga los datos necesarios desde la API de [openweather](https://openweathermap.org/current). Para ello pueden utilizar `axios` para hacer la llamada y obtener el resultado. En el caso de que la ciudad no exista deberíamos mostrar un mensaje indicándolo.
+7. Modificar la función `onSearch` para que obtenga los datos necesarios desde la API de [openweather](https://openweathermap.org/current). Para ello pueden utilizar `axios` para hacer la llamada y obtener el resultado. En el caso de que la ciudad no exista deberíamos mostrar un mensaje indicándolo.
 
 **IMPORTANTE**: Para poder realizar las llamadas a la API es necesario contar con una apiKey que como verán en el código debajo debe ser incluida dentro de la URL. La misma la podemos obtener creando una cuenta en la paǵina de [openweather](https://openweathermap.org/current).
 
@@ -188,11 +114,13 @@ Llegado a este punto cada vez que le den click al botón de `Agregar` se debe in
       .then((recurso) => {
         if(recurso.main !== undefined){
           const ciudad = {
-            min: Math.round(recurso.main.temp_min),
-            max: Math.round(recurso.main.temp_max),
             img: recurso.weather[0].icon,
             id: recurso.id,
             wind: recurso.wind.speed,
+            humidity: recurso.main.humidity,
+            feels_like: recurso.main.feels_like,
+            description: recurso.weather[0].description,
+            clouds: recurso.clouds.all,
             temp: recurso.main.temp,
             name: recurso.name,
             weather: recurso.weather[0].main,
@@ -212,7 +140,7 @@ Llegado a este punto cada vez que le den click al botón de `Agregar` se debe in
 
 ```
 
-11. Por último en el ejercicio anterior habíamos creado el componente `Card` para que reciba una función como parámetro. Esta va a ser la encargada de eliminarla al momento de hacer click en el botón `X`. Para ello es necesario definir dicha función en `App.js` para que a partir del id recibido, elimina dicha cudad del array de ciudades del estado.
+8. Por último en el ejercicio anterior habíamos creado el componente `Card` para que reciba una función como parámetro. Esta va a ser la encargada de eliminarla al momento de hacer click en el botón `X`. Para ello es necesario definir dicha función en `App.js` para que a partir del id recibido, elimina dicha cudad del array de ciudades del estado.
 
 ```js
 // App.js
