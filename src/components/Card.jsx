@@ -1,6 +1,16 @@
 import React from "react";
 
-export default function Card({ max, min, name, img, onClose, id }) {
+export default function Card({
+  id,
+  temp,
+  img,
+  name,
+  clouds,
+  humidity,
+  description,
+  onClose,
+}) {
+  // Chequea si las props, son las mismas que recibias en practicas anteriores
   // acá va tu código
   return (
     <div style={{ border: "1px solid white", width: "20vw" }}>

@@ -51,18 +51,28 @@ function App() {
     //pero de momento agregaremos una ciudad por default para ver que funcione
 
     const ciudadEjemplo = {
-      min: 32,
-      max: 35,
-      img: "03n",
-      id: 2172797,
-      wind: 3.6,
-      temp: 300.15,
-      name: "Cairns",
-      weather: "Clouds",
-      clouds: 40,
-      latitud: -16.92,
-      longitud: 145.77
+      id: random.uuid(),
+      wind:{
+        speed:3.6,
+        deg:160
+      },
+      main:{
+        temp:300.15,
+        humidity:74,
+      },
+      name: "Ejemplo",
+      weather:[
+        {
+          main: "Clouds",
+          description: "scattered clouds",
+          icon: "03n"
+        }
+      ],
+      clouds:{
+        all:40
+      },
     };
+
     setCities([...cities, ciudadEjemplo]);
   }
 
@@ -112,24 +122,10 @@ Llegado a este punto cada vez que le den click al botón de `Agregar` se debe in
     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&units=metric&lang=es&appid=${apiKey}`)
 
       .then(r => r.json())
-      .then((recurso) => {
-        if(recurso.main !== undefined){
-          const ciudad = {
-            img: recurso.weather[0].icon,
-            id: recurso.id,
-            wind: recurso.wind.speed,
-            humidity: recurso.main.humidity,
-            feels_like: recurso.main.feels_like,
-            description: recurso.weather[0].description,
-            clouds: recurso.clouds.all,
-            temp: recurso.main.temp,
-            name: recurso.name,
-            weather: recurso.weather[0].main,
-            clouds: recurso.clouds.all,
-            latitud: recurso.coord.lat,
-            longitud: recurso.coord.lon
-          };
-          setCities([...cities, ciudad]);
+      .then((cityApi) => {
+        if(cityApi.main !== undefined){
+
+          setCities([...cities, cityApi]);
         } else {
           alert("Ciudad no encontrada");
         }
